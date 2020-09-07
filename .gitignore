@@ -1,3 +1,5 @@
 libraries/
 .vscode/
+jsconfig.json
+p5*
 notes.md

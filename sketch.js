@@ -1,3 +1,6 @@
+/// <reference path="./p5.global-mode.d.ts" />
+
+
 var cols = 50;
 var rows = 50;
 var grid = new Array(cols);
@@ -9,6 +12,13 @@ var start;
 var end;
 
 
+class Astar {
+	constructor() {
+
+	}
+}
+
+
 class Node {
 	constructor(x, y) {
 		this.width = width / cols;
@@ -16,9 +26,9 @@ class Node {
 		this.x = x;
 		this.y = y;
 
-		this.f = 0;
-		this.g = 0;
-		this.h = 0;
+		this.fscore = 0;
+		this.gscore = 0;
+		this.hscore = 0;
 
 		this.wall = false;
 		if (random(1) < 0.3)
@@ -26,39 +36,62 @@ class Node {
 		this.previous = undefined;
 		this.neighbors = [];
 	}
-	show(color) {
-		fill(color);
-		if (this.wall) {
-			fill(0);
+	show(color, circle=true) {
+		if (circle) {
+			fill(color);
+			if (this.wall)
+				fill(0);
+			noStroke();
+			ellipse(
+				this.x * this.width + this.width / 2,
+				this.y * this.height + this.height / 2,
+				this.width / 2,
+				this.height / 2
+			);
 		}
-		noStroke();
-		ellipse(
-			this.x * this.width + this.width/2,
-			this.y * this.height + this.height/2,
-			this.width/2,
-			this.height/2
-		);
-		// rect(
-		// 	this.x * this.width,
-		// 	this.y * this.height,
-		// 	this.width - 1,
-		// 	this.height - 1
-		// );
+		else {
+			fill(color);
+			if (this.wall)
+				fill(0);
+			noStroke();
+			rect(
+				this.x * this.width,
+				this.y * this.height,
+				this.width - 1,
+				this.height - 1
+			);
+		}
 	}
 
-	addNeighbors(grid) {
-		if (this.x < cols - 1) {
-			this.neighbors.push(grid[this.x + 1][this.y]);
+	addNeighbors(grid, diagonal=true) {
+		for (var i = 0; i < 4; i++) {
+			var newX = round(cos(90 * i) + this.x);
+			var newY = round(sin(90 * i) + this.y);
+
+			if ((0 <= newX && newX < cols) && (0 <= newY && newY < rows))
+				this.neighbors.push(grid[newX][newY]);
+
+			var diagonX = round(sqrt(2) * cos(90 * i + 45) + this.x);
+			var diagonY = round(sqrt(2) * sin(90 * i + 45) + this.y);
+			if (diagonal) {
+				if ((0 <= diagonX && diagonX < cols) && (0 <= diagonY && diagonY < rows))
+					this.neighbors.push(grid[diagonX][diagonY]);
+			}
 		}
-		if (this.x > 0) {
-			this.neighbors.push(grid[this.x - 1][this.y]);
-		}
-		if (this.y < rows - 1) {
-			this.neighbors.push(grid[this.x][this.y + 1]);
-		}
-		if (this.y > 0) {
-			this.neighbors.push(grid[this.x][this.y - 1]);
-		}
+
+		// if (this.x < cols - 1) {
+		// 	this.neighbors.push(grid[this.x + 1][this.y]);
+		// }
+		// if (this.x > 0) {
+		// 	this.neighbors.push(grid[this.x - 1][this.y]);
+		// }
+		// if (this.y < rows - 1) {
+		// 	this.neighbors.push(grid[this.x][this.y + 1]);
+		// }
+		// if (this.y > 0) {
+		// 	this.neighbors.push(grid[this.x][this.y - 1]);
+		// }
+
 		// if (this.x > 0 && this.y > 0) {
 		// 	this.neighbors.push(grid[this.x - 1][this.y - 1]);
 		// }
@@ -118,52 +151,51 @@ function setup() {
 	end.wall = false;
 
 	openSet.push(start);
-	console.log(grid)
 }
 
 function draw() {
 	if (openSet.length > 0) {  // Forward:
 
-		var winner = 0;
+		var leastCostIdx = 0;
 		for (var i = 0; i < openSet.length; i++) {
-			if (openSet[i].f < openSet[winner].f) {
-				winner = i;
+			if (openSet[leastCostIdx].fscore > openSet[i].fscore) {
+				leastCostIdx = i;
 			}
 		}
-		var current = openSet[winner];
+		var currentNode = openSet[leastCostIdx];
 
-		if (current == end) {
+		if (currentNode == end) {
 			noLoop();
-			console.log("DONE!");
+			console.log("Finished.");
 		}
 
-		removeFromArray(openSet, current);
-		closedSet.push(current);
+		removeFromArray(openSet, currentNode);
+		closedSet.push(currentNode);
 
-		var neighbors = current.neighbors;
-		for (var i = 0; i < neighbors.length; i++) {
-			var neighbor = neighbors[i];
+		// var neighbors = currentNode.neighbors;
+		for (var i = 0; i < currentNode.neighbors.length; i++) {
+			var neighbor = currentNode.neighbors[i];
 
 			if (!closedSet.includes(neighbor) && !neighbor.wall) {
-				var tempG = current.g + 1;
+				var tempG = currentNode.gscore + 1;
 
 				var newPath = false;
 				if (openSet.includes(neighbor)) {
-					if (tempG < neighbor.g) {
+					if (tempG < neighbor.gscore) {
 						newPath = true;
-						neighbor.g = tempG;
+						neighbor.gscore = tempG;
 					}
 				}
 				else {
 					newPath = true;
-					neighbor.g = tempG;
+					neighbor.gscore = tempG;
 					openSet.push(neighbor);
 				}
 
 				if (newPath) {
-					neighbor.h = heuristic(neighbor, end);
-					neighbor.f = neighbor.g + neighbor.h;
-					neighbor.previous = current;
+					neighbor.hscore = heuristic(neighbor, end);
+					neighbor.fscore = neighbor.gscore + neighbor.hscore;
+					neighbor.previous = currentNode;
 				}
 			}
 		}
@@ -174,6 +206,7 @@ function draw() {
 		noLoop();
 		return;
 	}
+	var circle = true;  // Draw circle instead of square
 	background(0);
 
 	for (var i = 0; i < cols; i++) {
@@ -190,25 +223,28 @@ function draw() {
 
 	// Find the path:
 	path = [];
-	var temp = current;
+	var temp = currentNode;
 	path.push(temp);
 	while (temp.previous) {
 		path.push(temp.previous);
 		temp = temp.previous;
 	}
 
-	// for (var i = 0; i < path.length; i++) {
-	// 	path[i].show(color(0, 0, 255));
-	// }
-	noFill();
-	stroke(0, 0, 255);
-	strokeWeight((width/cols)/2);
-	beginShape();
-	for (var i = 0; i < path.length; i++) {
-		vertex(
-			path[i].x * path[i].width + path[i].width / 2,
-			path[i].y * path[i].height + path[i].height / 2
-		);
+	if (!circle) {
+		for (var i = 0; i < path.length; i++)
+			path[i].show(color(0, 0, 255));
 	}
-	endShape();
+	else {
+		noFill();
+		stroke(0, 0, 255);
+		strokeWeight((width/cols)/2);
+		beginShape();
+		for (var i = 0; i < path.length; i++) {
+			vertex(
+				path[i].x * path[i].width + path[i].width / 2,
+				path[i].y * path[i].height + path[i].height / 2
+			);
+		}
+		endShape();
+	}
 }
