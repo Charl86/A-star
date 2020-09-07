@@ -27,17 +27,17 @@ class Node {
 		this.neighbors = [];
 	}
 	show(color) {
-		// fill(color);
+		fill(color);
 		if (this.wall) {
 			fill(0);
-			noStroke();
-			ellipse(
-				this.x * this.width + this.width/2,
-				this.y * this.height + this.height/2,
-				this.width/2,
-				this.height/2
-			);
 		}
+		noStroke();
+		ellipse(
+			this.x * this.width + this.width/2,
+			this.y * this.height + this.height/2,
+			this.width/2,
+			this.height/2
+		);
 		// rect(
 		// 	this.x * this.width,
 		// 	this.y * this.height,
@@ -59,18 +59,18 @@ class Node {
 		if (this.y > 0) {
 			this.neighbors.push(grid[this.x][this.y - 1]);
 		}
-		if (this.x > 0 && this.y > 0) {
-			this.neighbors.push(grid[this.x - 1][this.y - 1]);
-		}
-		if (this.x < cols - 1 && this.y > 0) {
-			this.neighbors.push(grid[this.x + 1][this.y - 1]);
-		}
-		if (this.x > 0 && this.y < rows - 1) {
-			this.neighbors.push(grid[this.x - 1][this.y + 1]);
-		}
-		if (this.x < cols - 1 && this.y < rows - 1) {
-			this.neighbors.push(grid[this.x + 1][this.y + 1]);
-		}
+		// if (this.x > 0 && this.y > 0) {
+		// 	this.neighbors.push(grid[this.x - 1][this.y - 1]);
+		// }
+		// if (this.x < cols - 1 && this.y > 0) {
+		// 	this.neighbors.push(grid[this.x + 1][this.y - 1]);
+		// }
+		// if (this.x > 0 && this.y < rows - 1) {
+		// 	this.neighbors.push(grid[this.x - 1][this.y + 1]);
+		// }
+		// if (this.x < cols - 1 && this.y < rows - 1) {
+		// 	this.neighbors.push(grid[this.x + 1][this.y + 1]);
+		// }
 	}
 }
 
@@ -92,7 +92,7 @@ function heuristic(a, b) {
 
 
 function setup() {
-	createCanvas(400, 400);
+	createCanvas(540, 540);
 	console.log("A*");
 
 	// Creating 2D array:
@@ -174,7 +174,7 @@ function draw() {
 		noLoop();
 		return;
 	}
-	background(255);
+	background(0);
 
 	for (var i = 0; i < cols; i++) {
 		for (var j = 0; j < rows; j++) {
@@ -201,7 +201,7 @@ function draw() {
 	// 	path[i].show(color(0, 0, 255));
 	// }
 	noFill();
-	stroke(0, 255, 255);
+	stroke(0, 0, 255);
 	strokeWeight((width/cols)/2);
 	beginShape();
 	for (var i = 0; i < path.length; i++) {
