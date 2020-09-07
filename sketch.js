@@ -78,32 +78,6 @@ class Node {
 					this.neighbors.push(grid[diagonX][diagonY]);
 			}
 		}
-
-		// if (this.x < cols - 1) {
-		// 	this.neighbors.push(grid[this.x + 1][this.y]);
-		// }
-		// if (this.x > 0) {
-		// 	this.neighbors.push(grid[this.x - 1][this.y]);
-		// }
-		// if (this.y < rows - 1) {
-		// 	this.neighbors.push(grid[this.x][this.y + 1]);
-		// }
-		// if (this.y > 0) {
-		// 	this.neighbors.push(grid[this.x][this.y - 1]);
-		// }
-
-		// if (this.x > 0 && this.y > 0) {
-		// 	this.neighbors.push(grid[this.x - 1][this.y - 1]);
-		// }
-		// if (this.x < cols - 1 && this.y > 0) {
-		// 	this.neighbors.push(grid[this.x + 1][this.y - 1]);
-		// }
-		// if (this.x > 0 && this.y < rows - 1) {
-		// 	this.neighbors.push(grid[this.x - 1][this.y + 1]);
-		// }
-		// if (this.x < cols - 1 && this.y < rows - 1) {
-		// 	this.neighbors.push(grid[this.x + 1][this.y + 1]);
-		// }
 	}
 }
 
@@ -172,7 +146,6 @@ function draw() {
 		removeFromArray(openSet, currentNode);
 		closedSet.push(currentNode);
 
-		// var neighbors = currentNode.neighbors;
 		for (var i = 0; i < currentNode.neighbors.length; i++) {
 			var neighbor = currentNode.neighbors[i];
 
