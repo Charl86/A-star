@@ -27,16 +27,23 @@ class Node {
 		this.neighbors = [];
 	}
 	show(color) {
-		fill(color);
-		if (this.wall)
+		// fill(color);
+		if (this.wall) {
 			fill(0);
-		noStroke();
-		rect(
-			this.x * this.width,
-			this.y * this.height,
-			this.width - 1,
-			this.height - 1
-		);
+			noStroke();
+			ellipse(
+				this.x * this.width + this.width/2,
+				this.y * this.height + this.height/2,
+				this.width/2,
+				this.height/2
+			);
+		}
+		// rect(
+		// 	this.x * this.width,
+		// 	this.y * this.height,
+		// 	this.width - 1,
+		// 	this.height - 1
+		// );
 	}
 
 	addNeighbors(grid) {
@@ -167,7 +174,7 @@ function draw() {
 		noLoop();
 		return;
 	}
-	background(0);
+	background(255);
 
 	for (var i = 0; i < cols; i++) {
 		for (var j = 0; j < rows; j++) {
@@ -189,7 +196,19 @@ function draw() {
 		path.push(temp.previous);
 		temp = temp.previous;
 	}
+
+	// for (var i = 0; i < path.length; i++) {
+	// 	path[i].show(color(0, 0, 255));
+	// }
+	noFill();
+	stroke(0, 255, 255);
+	strokeWeight((width/cols)/2);
+	beginShape();
 	for (var i = 0; i < path.length; i++) {
-		path[i].show(color(0, 0, 255));
+		vertex(
+			path[i].x * path[i].width + path[i].width / 2,
+			path[i].y * path[i].height + path[i].height / 2
+		);
 	}
+	endShape();
 }
