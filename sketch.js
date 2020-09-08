@@ -3,11 +3,11 @@
 var cols = 50;
 var rows = 50;
 
-var astar = new Astar();
+var astar = new Astar(circles=true);
 
 
 function setup() {
-	createCanvas(540, 540);
+	createCanvas(640, 640);
 	console.log("A*");
 
 	// Creating grid that using a 2D-array implementation:
@@ -77,45 +77,9 @@ function draw() {
 		noLoop();
 		return;
 	}
+
 	background(0);
 
-	for (var i = 0; i < cols; i++) {
-		for (var j = 0; j < rows; j++) {
-			astar.grid[i][j].show(color(255));
-		}
-	}
-	for (var i = 0; i < astar.closedSet.length; i++) {
-		astar.closedSet[i].show(color(255, 0, 0));
-	}
-	for (var i = 0; i < astar.openSet.length; i++) {
-		astar.openSet[i].show(color(0, 255, 0));
-	}
-
-	// Find the path:
-	astar.path = [];
-	var temp = currentNode;
-	astar.path.push(temp);
-	while (temp.previous) {
-		astar.path.push(temp.previous);
-		temp = temp.previous;
-	}
-
-	var circle = false;  // Draw circle instead of square
-	if (!circle) {
-		for (var i = 0; i < astar.path.length; i++)
-		astar.path[i].show(color(0, 0, 255));
-	}
-	else {
-		noFill();
-		stroke(0, 0, 255);
-		strokeWeight((width/cols)/2);
-		beginShape();
-		for (var i = 0; i < astar.path.length; i++) {
-			vertex(
-				astar.path[i].x * astar.path[i].width + astar.path[i].width / 2,
-				astar.path[i].y * astar.path[i].height + astar.path[i].height / 2
-			);
-		}
-		endShape();
-	}
+	astar.show();
+	astar.revealPath(currentNode);
 }

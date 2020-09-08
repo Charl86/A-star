@@ -19,8 +19,8 @@ class Node {
 		this.neighbors = [];
 	}
 
-	show(color, circle=false) {
-		if (circle) {
+	show(color, circles=false) {
+		if (circles) {
 			fill(color);
 			if (this.blocked)
 				fill(0);
