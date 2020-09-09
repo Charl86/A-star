@@ -25,29 +25,28 @@ function setup() {
 	astar.openSet.push(astar.start);
 }
 
+
 function draw() {
-	// While there are possible node paths available:
+    // While there are possible node paths available:
 	if (astar.openSet.length > 0) {
-		var leastCostIdx = 0;
-		for (var i = 0; i < astar.openSet.length; i++) {
-			if (astar.openSet[leastCostIdx].fscore > astar.openSet[i].fscore) {
-				leastCostIdx = i;
-			}
-		}
-		var currentNode = astar.openSet[leastCostIdx];
+        var lowestFidx = 0;
+        for (var i = 0; i < astar.openSet.length; i++) {
+            if (astar.openSet[lowestFidx].fscore > astar.openSet[i].fscore)
+                lowestFidx = i;
+        }
+        var currentNode = astar.openSet[lowestFidx];
 
-		if (currentNode == astar.end) {
-			noLoop();
-			console.log("Finished.");
-		}
+        if (currentNode == astar.end) {
+            noLoop();
+            console.log("Finished.");
+        }
 
-		astar.rmFromOpenSet(currentNode);
-		astar.closedSet.push(currentNode);
+        astar.rmFromOpenSet(currentNode);
+        astar.closedSet.push(currentNode);
+        for (var i = 0; i < currentNode.neighbors.length; i++) {
+            neighbor = currentNode.neighbors[i];
 
-		for (var i = 0; i < currentNode.neighbors.length; i++) {
-			var neighbor = currentNode.neighbors[i];
-
-			if (!astar.closedSet.includes(neighbor) && !neighbor.blocked) {
+            if (!astar.closedSet.includes(neighbor) && !neighbor.blocked) {
 				var tempG = currentNode.gscore + 1;
 
 				var newPath = false;
@@ -68,9 +67,9 @@ function draw() {
 					neighbor.fscore = neighbor.gscore + neighbor.hscore;
 					neighbor.previous = currentNode;
 				}
-			}
-		}
-	}
+            }
+        }
+    }
 	// No solution
 	else {
 		console.log("No solution.");
