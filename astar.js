@@ -49,9 +49,8 @@ class Astar {
     }
 
     revealPath(currNode) {
-        this.path.splice(0, this.path.length);
         var temp = currNode;
-        this.path.push(temp);
+        this.path = [temp];
         while (temp.previous) {
             this.path.push(temp.previous);
             temp = temp.previous;
