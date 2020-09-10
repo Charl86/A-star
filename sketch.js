@@ -1,7 +1,7 @@
 /// <reference path="./p5.global-mode.d.ts" />
 
-var cols = 100;
-var rows = 100;
+var cols = 50;
+var rows = 50;
 
 var astar = new Astar(circles=false);
 
@@ -81,6 +81,6 @@ function draw() {
 	}
 	background(255, 255, 255);
 
-	astar.show();
-	astar.revealPath(astar.currentNode);
+	astar.show();  // Draw all cells on the screen with respective colors.
+	astar.revealPath();  // Reveal shortest path to the latest node.
 }
