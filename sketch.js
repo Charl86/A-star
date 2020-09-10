@@ -1,13 +1,14 @@
 /// <reference path="./p5.global-mode.d.ts" />
 
-var cols = 50;
-var rows = 50;
+var cols = 100;
+var rows = 100;
 
-var astar = new Astar(circles=true);
+var astar = new Astar(circles=false);
 
 
 function setup() {
-	createCanvas(640, 640);
+	// frameRate(1);
+	createCanvas(825, 825);
 	console.log("A*");
 
 	// Creating grid that using a 2D-array implementation:
@@ -27,58 +28,59 @@ function setup() {
 
 
 function draw() {
-    // While there are possible node paths available:
+	// While there are possible nodes/paths to go through:
 	if (astar.openSet.length > 0) {
+		// Find the node with the smallest cost amount.
         var lowestFidx = 0;
         for (var i = 0; i < astar.openSet.length; i++) {
-            if (astar.openSet[lowestFidx].fscore > astar.openSet[i].fscore)
-                lowestFidx = i;
-        }
-        var currentNode = astar.openSet[lowestFidx];
+			if (astar.openSet[lowestFidx].fscore > astar.openSet[i].fscore)
+			lowestFidx = i;
+		}
+		// Make that the current node.
+		astar.currentNode = astar.openSet[lowestFidx];
 
-        if (currentNode == astar.end) {
-            noLoop();
+		// If the current node is equal to the goal node, exit loop.
+        if (astar.currentNode == astar.end) {
+			noLoop();
             console.log("Finished.");
         }
 
-        astar.rmFromOpenSet(currentNode);
-        astar.closedSet.push(currentNode);
-        for (var i = 0; i < currentNode.neighbors.length; i++) {
-            neighbor = currentNode.neighbors[i];
+		// Make currentNode impossible to pick again.
+		astar.rmFromOpenSet(astar.currentNode);
+		astar.closedSet.push(astar.currentNode);
+		// For each neighbor of currentNode:
+        for (var i = 0; i < astar.currentNode.neighbors.length; i++) {
+			neighbor = astar.currentNode.neighbors[i];
 
+			// If neighbor not in closedSet and neighbor is not an obstacle:
             if (!astar.closedSet.includes(neighbor) && !neighbor.blocked) {
-				var tempG = currentNode.gscore + 1;
+				var distFromCurrent = dist(astar.currentNode.x, astar.currentNode.y,
+											neighbor.x, neighbor.y);
 
-				var newPath = false;
-				if (astar.openSet.includes(neighbor)) {
-					if (tempG < neighbor.gscore) {
-						newPath = true;
-						neighbor.gscore = tempG;
-					}
-				}
-				else {
-					newPath = true;
+				// Set tempG equal to current gscore + neighbor's distance from current.
+				var tempG = astar.currentNode.gscore + distFromCurrent;
+				/* If this temporary gscore is less than neighbor's or neighbor has never
+				been picked: */
+				if (tempG < neighbor.gscore || !astar.openSet.includes(neighbor)) {
+					// Update neighbor's members.
 					neighbor.gscore = tempG;
-					astar.openSet.push(neighbor);
-				}
+					neighbor.fscore = neighbor.gscore + neighbor.heuristic(astar.end);
+					neighbor.previous = astar.currentNode;
 
-				if (newPath) {
-					neighbor.hscore = astar.heuristic(neighbor, astar.end);
-					neighbor.fscore = neighbor.gscore + neighbor.hscore;
-					neighbor.previous = currentNode;
+					// Add neighbor to list of possible paths if it's not already there.
+					if (!astar.openSet.includes(neighbor))
+						astar.openSet.push(neighbor);
 				}
             }
         }
     }
-	// No solution
-	else {
+	else {  // There is no node that leads to the goal.
 		console.log("No solution.");
 		noLoop();
 		return;
 	}
-
-	background(0);
+	background(255, 255, 255);
 
 	astar.show();
-	astar.revealPath(currentNode);
+	astar.revealPath(astar.currentNode);
 }

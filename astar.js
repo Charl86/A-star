@@ -8,6 +8,7 @@ class Astar {
         this.closedSet = [];
         this.path = [];
 
+        this.currentNode = undefined;
         this.start;
         this.end;
 
@@ -57,8 +58,12 @@ class Astar {
         }
 
         if (!this.circles) {
+            this.path[0].show(color(0, 0, 255), this.circles);
             for (var i = 0; i < this.path.length; i++)
-                this.path[i].show(color(0, 0, 255));
+                if (this.path[i] == currNode)
+                    this.path[i].show(color(255, 255, 0), this.circles);
+                else
+                    this.path[i].show(color(0, 0, 255), this.circles);
         }
         else {
             noFill();
@@ -81,11 +86,5 @@ class Astar {
                 this.openSet.splice(i, 1);
             }
         }
-    }
-
-    heuristic(nodeA, nodeB) {
-        // var distance = dist(nodeA.x, nodeA.y, nodeB.x, nodeB.y);  // Euclidean Distance
-        var distance = abs(nodeA.x - nodeB.x) + abs(nodeA.y - nodeB.y);  // Manhattan Distance
-        return distance;
     }
 }
