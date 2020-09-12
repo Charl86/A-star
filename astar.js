@@ -3,7 +3,7 @@
 
 // A* Algorithm Class
 class Astar {
-    constructor(circles=false) {
+    constructor(shape="square") {
         this.grid = []  // Grid in which cells live.
         this.openSet = [];  // Possible paths.
         this.closedSet = [];  // Discarded nodes.
@@ -13,7 +13,7 @@ class Astar {
         this.start;  // Start node.
         this.end;  // Goal node.
 
-        this.circles = circles;  // Draw squares or circles.
+        this.shape = shape;  // Shape to draw e.g. squares, circles.
     }
 
     // Nodes and sets display method.
@@ -21,16 +21,16 @@ class Astar {
         // Iterate through grid cells and call show() method.
         for (var i = 0; i < cols; i++) {
             for (var j = 0; j < rows; j++) {
-                this.grid[i][j].show(color(255), this.circles);
+                this.grid[i][j].show(color(255), this.shape);
             }
         }
         // Iterate through closed set and display nodes as red.
         for (var i = 0; i < this.closedSet.length; i++) {
-            this.closedSet[i].show(color(255, 0, 0), this.circles);
+            this.closedSet[i].show(color(255, 0, 0), this.shape);
         }
         // Iterate through open set and display nodes as green.
         for (var i = 0; i < this.openSet.length; i++) {
-            this.openSet[i].show(color(0, 255, 0), this.circles);
+            this.openSet[i].show(color(0, 255, 0), this.shape);
         }
     }
 
@@ -70,13 +70,13 @@ class Astar {
             temp = temp.previous;
         }
         // If drawing squares
-        if (!this.circles) {
+        if (this.shape.toLowerCase() == "square" || this.shape.toLowerCase() == "squares") {
             for (var i = 0; i < this.path.length; i++)
                 // If path[i] is the currentNode, paint yellow.
                 if (this.path[i] == this.currentNode)
-                    this.path[i].show(color(255, 255, 0), this.circles);
+                    this.path[i].show(color(255, 255, 0), this.shape);
                 else  // Otherwise paint blue.
-                    this.path[i].show(color(0, 0, 255), this.circles);
+                    this.path[i].show(color(0, 0, 255), this.shape);
         }
         else {  // If displaying circles
             noFill();
