@@ -55,21 +55,10 @@ in the command line and clicking on the server link will serve the `sketch.js` f
 
 # Gallery
 
-<!-- *Instance where A\* finds shortest path to goal node* -->
 ![Path Found](gallery/Path_Found.png)
 
-<!-- *Dark theme version for those browsing at night* -->
 ![Path Found Dark Theme](gallery/Path_Found_Dark.png)
 
-<!-- *There wasn't a suitable path towards goal node* -->
 ![No Solution](gallery/No_Solution.png)
 
-<!-- *There wasn't a suitable path towards goal node* -->
-![No Solution](gallery/No_Solution.png)
-
-<!-- *A\* in action* -->
 ![Path Found Gif](gallery/Path_Found_Gif.gif)
-<!-- <img align="left" width=800 height=800 src="gallery/Path_Found.png">
-<img align="right" width=800 height=800 src="gallery/Path_Found_Dark.png">
-<img align="center" src="gallery/No_Solution.png">
-<img align="left" width=800 height=800 src="gallery/Path_Found_Gif.gif"> -->
