@@ -1,5 +1,8 @@
 # Introduction
+<img align="right" src="gallery/Path_Found_Gif.gif" height="200">
+
 In this project I attempt to implement the graph traversal and path search A* Algorithm, in order to find the most optimal path between two points in a plane, programmed in JavaScript and using p5.js library for graphical display.
+
 
 # Index
 - [About](#About)
@@ -51,14 +54,22 @@ in the command line and clicking on the server link will serve the `sketch.js` f
 - [Node.js](https://nodejs.org/)
 
 # Gallery
-Instance where A* finds shortest path to goal node
+
+<!-- *Instance where A\* finds shortest path to goal node* -->
 ![Path Found](gallery/Path_Found.png)
 
-Dark theme version for those browsing at night
+<!-- *Dark theme version for those browsing at night* -->
 ![Path Found Dark Theme](gallery/Path_Found_Dark.png)
 
-A* ran out of suitable paths to follow
+<!-- *There wasn't a suitable path towards goal node* -->
 ![No Solution](gallery/No_Solution.png)
 
-A* in action
+<!-- *There wasn't a suitable path towards goal node* -->
+![No Solution](gallery/No_Solution.png)
+
+<!-- *A\* in action* -->
 ![Path Found Gif](gallery/Path_Found_Gif.gif)
+<!-- <img align="left" width=800 height=800 src="gallery/Path_Found.png">
+<img align="right" width=800 height=800 src="gallery/Path_Found_Dark.png">
+<img align="center" src="gallery/No_Solution.png">
+<img align="left" width=800 height=800 src="gallery/Path_Found_Gif.gif"> -->
