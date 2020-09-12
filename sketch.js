@@ -3,13 +3,12 @@
 var cols = 50;
 var rows = 50;
 
-var astar = new Astar(circles=false);
+var astar = new Astar(circles=true);
 
 
 function setup() {
-	// frameRate(1);
+	frameRate(30);
 	createCanvas(825, 825);
-	console.log("A*");
 
 	// Creating grid that using a 2D-array implementation:
 	astar.createGrid(cols);
@@ -42,7 +41,7 @@ function draw() {
 		// If the current node is equal to the goal node, exit loop.
         if (astar.currentNode == astar.end) {
 			noLoop();
-            console.log("Finished.");
+            console.log("Shortest path found");
         }
 
 		// Make currentNode impossible to pick again.
@@ -75,7 +74,7 @@ function draw() {
         }
     }
 	else {  // There is no node that leads to the goal.
-		console.log("No solution.");
+		console.log("No solution");
 		noLoop();
 		return;
 	}
