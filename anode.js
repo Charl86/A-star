@@ -21,22 +21,24 @@ class Node {
 	}
 
 	// Node display method.
-	show(color, circles=false) {
+	show(color, shape="square", stroke=true) {
 		// If node is not obstacle, fill with given color.
 		if (!this.blocked)
 			fill(color);
 		else  // Else fill as black.
 			fill(0);
 
-		if (circles) {  // If drawing circles.
+		// If drawing circles
+		if (shape.toLowerCase() == "circle" || shape.toLowerCase() == "circles") {
 			noStroke();  // No border drawing.
 			ellipse(  // Draw circle at half the width and height of node plus its coordinates.
 				this.x * this.width + this.width / 2, this.y * this.height + this.height / 2,
 				this.width / 2, this.height / 2
 			);
 		}
-		else {  // If drawing circles.
-			noStroke();
+		else {  // Else
+			if (!stroke)
+				noStroke();
 			rect(  // Draw rectangle.
 				this.x * this.width, this.y * this.height,
 				this.width, this.height

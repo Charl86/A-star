@@ -3,7 +3,7 @@
 var cols = 50;
 var rows = 50;
 
-var astar = new Astar(circles=true);
+var astar = new Astar(shape="square");
 
 
 function setup() {
@@ -78,7 +78,7 @@ function draw() {
 		noLoop();
 		return;
 	}
-	background(255, 255, 255);
+	background(255);
 
 	astar.show();  // Draw all cells on the screen with respective colors.
 	astar.revealPath();  // Reveal shortest path to the latest node.
