@@ -17,7 +17,7 @@ In this project I attempt to implement the graph traversal and path search A* Al
 A* is an informed search algorithm (also known as best-first search algorithm). This means that it makes use of a grid of weighted points, or nodes. Each node, given a starting node, has a score associated with it, related to values like the least distance travelled, shortest time, etc. The algorithm takes this score into account and chooses which nodes to go through, until the goal node has been reached or no suitable paths have been found. A* was created with the goal of building a mobile robot that could plan ahead a set of actions to take, as part of the Shakey project.
 
 # Usage
-In order to run the program, one must generate p5.js libraries and then copy the content of the repository into the directory with the generated p5.js libraries. One can set up a local server and serve the `sketch.js` file and watch the algorithm run on the localhost, assuming depencencies are installed.
+In order to run the program, one must generate p5.js libraries and then copy the content of the repository into the directory with the generated p5.js libraries. One can set up a local server and serve the `sketch.js` file and watch the algorithm run on the localhost, assuming dependencies are installed.
 
 ## Dependencies
 - Node.js
